@@ -46,43 +46,35 @@ body {
   100% { transform: translateY(15px); }
 }
 
-/* 🎧 TITLE AREA */
+/* 🎧 TITLE */
 h1 {
   color: #f0e3d2;
   margin: 0;
   font-size: 1.6rem;
-  letter-spacing: 1px;
 }
 
-/* ⚠️ SUBTITLE */
+/* ⚠️ SUBTITLE (hidden first) */
 .subtitle {
+  display: none;
   margin-top: 4px;
   color: #e6d2b5;
-  font-size: 0.8rem;   /* smaller than title */
-  opacity: 0.9;
+  font-size: 0.8rem;
 }
 
-/* TRACK TEXT */
+/* 🎵 TRACK TEXT */
 #trackTitle {
   margin-top: 0.7rem;
   color: #e6d2b5;
   font-size: 1rem;
 }
 
-#endScreen {
-  display: none;
-  margin-top: 0.7rem;
-  color: #e6d2b5;
-  font-size: 0.95rem;
-}
-
-/* AUDIO */
+/* 🎧 AUDIO */
 audio {
   width: 100%;
   margin-top: 0.7rem;
 }
 
-/* BUTTONS */
+/* 🔘 BUTTONS */
 button {
   padding: 0.4rem 0.8rem;
   margin: 0.2rem;
@@ -102,6 +94,14 @@ button {
 button:hover {
   background: #3a2418;
 }
+
+/* 🔚 END SCREEN */
+#endScreen {
+  display: none;
+  margin-top: 0.7rem;
+  color: #e6d2b5;
+  font-size: 0.95rem;
+}
 </style>
 </head>
 
@@ -111,8 +111,8 @@ button:hover {
 
   <h1>BEATRICE</h1>
 
-  <!-- ⚠️ SUBTITLE ADDED -->
-  <div class="subtitle">
+  <!-- ⚠️ SUBTITLE -->
+  <div class="subtitle" id="subtitle">
     ⚠️ (not mastered, turn phone volume up)
   </div>
 
@@ -152,6 +152,7 @@ const startBtn = document.getElementById("startBtn");
 const navControls = document.getElementById("navControls");
 const trackTitle = document.getElementById("trackTitle");
 const endScreen = document.getElementById("endScreen");
+const subtitle = document.getElementById("subtitle");
 
 let currentTrack = 0;
 
@@ -202,6 +203,10 @@ document.getElementById("prevBtn").addEventListener("click", prevTrack);
 startBtn.addEventListener("click", () => {
   startBtn.style.display = "none";
   navControls.style.display = "inline";
+
+  // ⚠️ show subtitle only after start
+  subtitle.style.display = "block";
+
   loadTrack(0);
 });
 </script>
