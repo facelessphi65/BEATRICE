@@ -6,81 +6,101 @@
 <title>BEATRICE</title>
 
 <style>
-  /* 🚫 LOCK SCROLL COMPLETELY */
-  html, body {
-    margin: 0;
-    height: 100%;
-    overflow: hidden;
-  }
+/* 🚫 LOCK SCROLL */
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+}
 
-  body {
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    padding-bottom: 40px;
+/* 🎨 LOAD BASEFIGH FONT */
+@font-face {
+  font-family: "Basefigh";
+  src: url("fonts/Basefigh.woff2");
+}
 
-    background: black url('Beatrice.jpg') no-repeat center center fixed;
-    background-size: contain;
-    font-family: sans-serif;
-  }
+body {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding-bottom: 40px;
 
-  .container {
-    text-align: center;
-    padding: 0.8rem;
-    background: #222;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.6);
+  background: black url('Beatrice.jpg') no-repeat center center fixed;
+  background-size: contain;
 
-    width: 70vw;
-    max-width: 380px;
+  font-family: "Basefigh", serif; /* 👈 ALL TEXT */
+}
 
-    animation: float 2s ease-in-out infinite;
-  }
+/* 🟤 LIGHT SEPIA PLAYER */
+.container {
+  text-align: center;
+  padding: 0.8rem;
 
-  @keyframes float {
-    0% { transform: translateY(15px); }
-    50% { transform: translateY(5px); }
-    100% { transform: translateY(15px); }
-  }
+  background: #e7dccb; /* light sepia */
+  border-radius: 10px;
 
-  h1 {
-    color: white;
-    margin: 0;
-    font-size: 1.4rem;
-  }
+  box-shadow: 0 0 25px rgba(0,0,0,0.5);
 
-  audio {
-    width: 100%;
-    margin-top: 0.7rem;
-  }
+  width: 70vw;
+  max-width: 380px;
 
-  button {
-    padding: 0.4rem 0.8rem;
-    margin: 0.2rem;
-    background: #111;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 0.9rem;
-  }
+  animation: float 2s ease-in-out infinite;
+}
 
-  button:hover {
-    background: #444;
-  }
+/* floating motion */
+@keyframes float {
+  0% { transform: translateY(15px); }
+  50% { transform: translateY(5px); }
+  100% { transform: translateY(15px); }
+}
 
-  #trackTitle {
-    margin-top: 0.7rem;
-    color: white;
-    font-size: 0.95rem;
-  }
+/* 🖋 TEXT STYLE */
+h1 {
+  color: #2b1b10;
+  margin: 0;
+  font-size: 1.5rem;
+  letter-spacing: 1px;
+}
 
-  #endScreen {
-    display: none;
-    margin-top: 0.7rem;
-    color: white;
-    font-size: 0.9rem;
-  }
+#trackTitle {
+  margin-top: 0.7rem;
+  color: #2b1b10;
+  font-size: 1rem;
+}
+
+#endScreen {
+  display: none;
+  margin-top: 0.7rem;
+  color: #2b1b10;
+  font-size: 0.9rem;
+}
+
+/* 🎛 AUDIO */
+audio {
+  width: 100%;
+  margin-top: 0.7rem;
+}
+
+/* 🔘 BUTTONS */
+button {
+  padding: 0.4rem 0.8rem;
+  margin: 0.2rem;
+
+  background: #5a4636;
+  color: #f5e7d3;
+
+  border: none;
+  border-radius: 5px;
+
+  cursor: pointer;
+  font-size: 0.9rem;
+
+  font-family: "Basefigh", serif;
+}
+
+button:hover {
+  background: #3f2f22;
+}
 </style>
 </head>
 
@@ -133,9 +153,7 @@ function loadTrack(index, autoplay = true) {
   player.src = tracks[currentTrack].src;
   trackTitle.textContent = tracks[currentTrack].title;
 
-  if (autoplay) {
-    player.play().catch(() => {});
-  }
+  if (autoplay) player.play().catch(() => {});
 
   endScreen.style.display = "none";
 }
