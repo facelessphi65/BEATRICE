@@ -13,7 +13,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #ababab url('Beatrice.jpg') no-repeat center center fixed;
+    background: black url('Beatrice.jpg') no-repeat center center fixed;
     background-size: contain;
     font-family: sans-serif;
   }
@@ -23,7 +23,7 @@
     padding: 1rem;
     background: #222;
     border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.4);
+    box-shadow: 0 0 20px rgba(0,0,0,0.6);
     animation: float 2s ease-in-out infinite;
     width: 80vw;
     max-width: 500px;
@@ -44,16 +44,11 @@
   audio {
     width: 100%;
     margin-top: 1rem;
-    border-radius: 8px;
-  }
-
-  .controls {
-    margin-top: 1rem;
   }
 
   button {
     padding: 0.5rem 1rem;
-    margin: 0 0.5rem;
+    margin: 0.3rem;
     background: #111;
     color: white;
     border: none;
@@ -68,7 +63,12 @@
   #trackTitle {
     margin-top: 1rem;
     color: white;
-    font-size: 1.1rem;
+  }
+
+  #endScreen {
+    display: none;
+    margin-top: 1rem;
+    color: white;
   }
 </style>
 </head>
@@ -90,6 +90,12 @@
   </div>
 
   <div id="trackTitle"></div>
+
+  <div id="endScreen">
+    <p>Play again?</p>
+    <button onclick="restart()">Yes</button>
+    <button onclick="stopPlayer()">No</button>
+  </div>
 </div>
 
 <script>
@@ -105,9 +111,8 @@ const tracks = [
 const player = document.getElementById("player");
 const startBtn = document.getElementById("startBtn");
 const navControls = document.getElementById("navControls");
-const prevBtn = document.getElementById("prevBtn");
-const nextBtn = document.getElementById("nextBtn");
 const trackTitle = document.getElementById("trackTitle");
+const endScreen = document.getElementById("endScreen");
 
 let currentTrack = 0;
 
@@ -118,24 +123,44 @@ function loadTrack(index, autoplay = true) {
   trackTitle.textContent = tracks[currentTrack].title;
 
   if (autoplay) {
-    player.play().catch(err => console.log(err));
+    player.play().catch(() => {});
   }
+
+  endScreen.style.display = "none";
 }
 
 function nextTrack() {
-  let next = (currentTrack + 1) % tracks.length;
-  loadTrack(next);
+  if (currentTrack === tracks.length - 1) {
+    showEndScreen();
+    return;
+  }
+  loadTrack(currentTrack + 1);
 }
 
 function prevTrack() {
-  let prev = (currentTrack - 1 + tracks.length) % tracks.length;
-  loadTrack(prev);
+  if (currentTrack > 0) {
+    loadTrack(currentTrack - 1);
+  }
+}
+
+function showEndScreen() {
+  endScreen.style.display = "block";
+  player.pause();
+}
+
+function restart() {
+  loadTrack(0);
+}
+
+function stopPlayer() {
+  player.pause();
+  endScreen.style.display = "none";
 }
 
 player.addEventListener("ended", nextTrack);
 
-nextBtn.addEventListener("click", nextTrack);
-prevBtn.addEventListener("click", prevTrack);
+document.getElementById("nextBtn").addEventListener("click", nextTrack);
+document.getElementById("prevBtn").addEventListener("click", prevTrack);
 
 startBtn.addEventListener("click", () => {
   startBtn.style.display = "none";
