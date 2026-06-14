@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>LOOSIES!</title>
+<title>BEATRICE</title>
+
 <style>
   body {
     margin: 0;
@@ -17,6 +18,7 @@
     background-size: contain; 
     font-family: sans-serif;
   }
+
   .container {
     text-align: center;
     padding: 1rem;
@@ -29,10 +31,31 @@
     width: 80vw;
     max-width: 500px;
   }
-  @keyframes float { 0% { transform: translateY(30px); } 50% { transform: translateY(20px); } 100% { transform: translateY(30px); } }
-  h1 { color: white; font-size: 2rem; margin: 0; text-align: center; }
-  audio { width: 100%; margin-top: 1rem; border-radius: 8px; outline: none; }
-  .controls { margin-top: 1rem; }
+
+  @keyframes float {
+    0% { transform: translateY(30px); }
+    50% { transform: translateY(20px); }
+    100% { transform: translateY(30px); }
+  }
+
+  h1 {
+    color: white;
+    font-size: 2rem;
+    margin: 0;
+    text-align: center;
+  }
+
+  audio {
+    width: 100%;
+    margin-top: 1rem;
+    border-radius: 8px;
+    outline: none;
+  }
+
+  .controls {
+    margin-top: 1rem;
+  }
+
   button {
     padding: 0.5rem 1rem;
     margin: 0 0.5rem;
@@ -43,13 +66,23 @@
     cursor: pointer;
     font-size: 1rem;
   }
-  button:hover { background-color: #444; }
-  #trackTitle { margin-top: 1rem; color: white; font-size: 1.1rem; }
+
+  button:hover {
+    background-color: #444;
+  }
+
+  #trackTitle {
+    margin-top: 1rem;
+    color: white;
+    font-size: 1.1rem;
+  }
 </style>
 </head>
+
 <body>
+
 <div class="container">
-  <h1>LOOSIES! 💀</h1>
+  <h1>BEATRICE</h1>
 
   <audio id="player" controls></audio>
 
@@ -66,11 +99,12 @@
 
 <script>
 const tracks = [
-  { src: "music/track1.ogg", title: "PRUDENTIAL!" },
-  { src: "music/track2.ogg", title: "DUMBO!" },
-  { src: "music/track3.ogg", title: "ANTIDEPRESSANTS!" },
-  { src: "music/track4.ogg", title: "iNFORMANT! interlude" },
-  { src: "music/track5.ogg", title: "nao falar!" }
+  { src: "music/track1.ogg", title: "untitled01" },
+  { src: "music/track2.ogg", title: "untitled02" },
+  { src: "music/track3.ogg", title: "untitled03" },
+  { src: "music/track4.ogg", title: "untitled04" },
+  { src: "music/track5.ogg", title: "untitled05" },
+  { src: "music/track6.ogg", title: "untitled06" }
 ];
 
 const player = document.getElementById("player");
@@ -82,7 +116,7 @@ const trackTitle = document.getElementById("trackTitle");
 
 let currentTrack = 0;
 
-// Preload all tracks
+// preload
 const preloaded = tracks.map(t => {
   const a = new Audio();
   a.src = t.src;
@@ -90,40 +124,40 @@ const preloaded = tracks.map(t => {
   return a;
 });
 
-// Play track immediately in the main <audio> element
 function playTrack(index) {
   currentTrack = index;
-  player.src = preloaded[currentTrack].src;
+
+  player.src = tracks[currentTrack].src;
   player.play().catch(err => console.log(err));
+
   trackTitle.textContent = tracks[currentTrack].title;
 
-  // Preload next track in background
+  // preload next
   const nextIndex = (currentTrack + 1) % tracks.length;
   preloaded[nextIndex].load();
 }
 
-// Auto-next track
 player.addEventListener("ended", () => {
   let nextIndex = (currentTrack + 1) % tracks.length;
   playTrack(nextIndex);
 });
 
-// Navigation buttons
 nextBtn.addEventListener("click", () => {
   let nextIndex = (currentTrack + 1) % tracks.length;
   playTrack(nextIndex);
 });
+
 prevBtn.addEventListener("click", () => {
   let prevIndex = (currentTrack - 1 + tracks.length) % tracks.length;
   playTrack(prevIndex);
 });
 
-// Start button
 startBtn.addEventListener("click", () => {
   startBtn.style.display = "none";
   navControls.style.display = "inline";
   playTrack(0);
 });
 </script>
+
 </body>
 </html>
