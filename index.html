@@ -8,26 +8,23 @@
 <style>
   body {
     margin: 0;
-    padding: 0;
     height: 100vh;
     width: 100vw;
     display: flex;
     justify-content: center;
     align-items: center;
-    background:#ababab url('loosies.jpg') no-repeat center center fixed;
-    background-size: contain; 
+    background: #ababab url('Beatrice.jpg') no-repeat center center fixed;
+    background-size: contain;
     font-family: sans-serif;
   }
 
   .container {
     text-align: center;
     padding: 1rem;
-    background-color: #222;
+    background: #222;
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0,0,0,0.4);
     animation: float 2s ease-in-out infinite;
-    margin-top: 180px;
-    transform: translateY(30px);
     width: 80vw;
     max-width: 500px;
   }
@@ -40,16 +37,14 @@
 
   h1 {
     color: white;
-    font-size: 2rem;
     margin: 0;
-    text-align: center;
+    font-size: 2rem;
   }
 
   audio {
     width: 100%;
     margin-top: 1rem;
     border-radius: 8px;
-    outline: none;
   }
 
   .controls {
@@ -59,16 +54,15 @@
   button {
     padding: 0.5rem 1rem;
     margin: 0 0.5rem;
-    background-color: #111;
+    background: #111;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 1rem;
   }
 
   button:hover {
-    background-color: #444;
+    background: #444;
   }
 
   #trackTitle {
@@ -88,6 +82,7 @@
 
   <div class="controls">
     <button id="startBtn">▶️ Start Listening</button>
+
     <div id="navControls" style="display:none;">
       <button id="prevBtn">⏮️ Prev</button>
       <button id="nextBtn">Next ⏭️</button>
@@ -116,46 +111,36 @@ const trackTitle = document.getElementById("trackTitle");
 
 let currentTrack = 0;
 
-// preload
-const preloaded = tracks.map(t => {
-  const a = new Audio();
-  a.src = t.src;
-  a.preload = "auto";
-  return a;
-});
-
-function playTrack(index) {
+function loadTrack(index, autoplay = true) {
   currentTrack = index;
 
   player.src = tracks[currentTrack].src;
-  player.play().catch(err => console.log(err));
-
   trackTitle.textContent = tracks[currentTrack].title;
 
-  // preload next
-  const nextIndex = (currentTrack + 1) % tracks.length;
-  preloaded[nextIndex].load();
+  if (autoplay) {
+    player.play().catch(err => console.log(err));
+  }
 }
 
-player.addEventListener("ended", () => {
-  let nextIndex = (currentTrack + 1) % tracks.length;
-  playTrack(nextIndex);
-});
+function nextTrack() {
+  let next = (currentTrack + 1) % tracks.length;
+  loadTrack(next);
+}
 
-nextBtn.addEventListener("click", () => {
-  let nextIndex = (currentTrack + 1) % tracks.length;
-  playTrack(nextIndex);
-});
+function prevTrack() {
+  let prev = (currentTrack - 1 + tracks.length) % tracks.length;
+  loadTrack(prev);
+}
 
-prevBtn.addEventListener("click", () => {
-  let prevIndex = (currentTrack - 1 + tracks.length) % tracks.length;
-  playTrack(prevIndex);
-});
+player.addEventListener("ended", nextTrack);
+
+nextBtn.addEventListener("click", nextTrack);
+prevBtn.addEventListener("click", prevTrack);
 
 startBtn.addEventListener("click", () => {
   startBtn.style.display = "none";
   navControls.style.display = "inline";
-  playTrack(0);
+  loadTrack(0);
 });
 </script>
 
